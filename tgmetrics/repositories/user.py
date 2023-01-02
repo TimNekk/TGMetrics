@@ -2,6 +2,7 @@ from typing import Type
 
 from sqlalchemy import func, desc
 
+from tgmetrics.repositories.group_by import GroupBy
 from tgmetrics.services.db import Session
 from tgmetrics.services.db.models import User
 
@@ -22,11 +23,22 @@ class UserRepository:
         with Session() as session:
             return session.query(self._model).get(id)
 
-    def get_count_by_month(self, month_format: str = "Mon YY") -> list[tuple[int, str]]:
+    def get_count(self, group_by: GroupBy) -> list[tuple[int, str]]:
+        match group_by:
+            case GroupBy.MONTH:
+                date, limit, format_ = "month", 12, "Mon YY"
+            case GroupBy.DAY:
+                date, limit, format_ = "day", 31, "DD Mon"
+            case GroupBy.HOUR:
+                date, limit, format_ = "hour", 24, "HH DD Mon"
+            case _:
+                date, limit, format_ = "", 0, ""
+
         with Session() as session:
             return session.query(
                 func.count(self._model.id),
-                func.to_char(func.date_trunc("month", self._model.join_date), month_format)) \
-                .group_by(func.date_trunc("month", self._model.join_date)) \
-                .order_by(func.date_trunc("month", self._model.join_date)) \
-                .all()
+                func.to_char(func.date_trunc(date, self._model.join_date), format_)) \
+                       .group_by(func.date_trunc(date, self._model.join_date)) \
+                       .order_by(desc(func.date_trunc(date, self._model.join_date))) \
+                       .limit(limit) \
+                       .all()[::-1]
