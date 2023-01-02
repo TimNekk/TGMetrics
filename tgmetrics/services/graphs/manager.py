@@ -1,7 +1,9 @@
 from tgmetrics.repositories import UserRepository
+from tgmetrics.repositories.group_by import GroupBy
 from tgmetrics.services.graphs.category import GraphCategory
 from tgmetrics.services.graphs import crud
 from tgmetrics.services.graphs.subcategory import GraphSubcategory
+from tgmetrics.services.graphs.period import GraphPeriod
 
 
 class GraphManager:
@@ -9,21 +11,13 @@ class GraphManager:
         self._user_repository = user_repository
 
         self.categories = [
-            GraphCategory("Users", user_repository, [
-                GraphSubcategory("Total", crud.get_users_total),
-                # GraphSubcategory("New"),
-                # GraphSubcategory("Activity"),
-                # GraphSubcategory("Referral")
-            ]),
-            # GraphCategory("Messages and callbacks", None, [
-            #     GraphSubcategory("Total"),
-            #     GraphSubcategory("Commands")
-            # ]),
-            # GraphCategory("Revenue", None, [
-            #     GraphSubcategory("Total"),
-            #     GraphSubcategory("New"),
-            #     GraphSubcategory("Referral")
-            # ])
+            GraphCategory("Users", [
+                GraphSubcategory("Total", user_repository, [
+                    GraphPeriod("Months", crud.get_users_total, GroupBy.MONTH),
+                    GraphPeriod("Days", crud.get_users_total, GroupBy.DAY),
+                    GraphPeriod("Hours", crud.get_users_total, GroupBy.HOUR),
+                ])
+            ])
         ]
 
     @property
