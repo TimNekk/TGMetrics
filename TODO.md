@@ -5,10 +5,10 @@ This is the todo file for TGMetrics.
 ## Graphs
 
 - [ ] Users
-	- [ ] Total
-		- [ ] Amount / Hours
-		- [ ] Amount / Days
-		- [ ] Amount / Months
+	- [x] Total
+		- [x] Amount / Hours
+		- [x] Amount / Days
+		- [x] Amount / Months
 	- [ ]  New
 		- [ ] Amount / Hours
 		- [ ] Amount / Days
