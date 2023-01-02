@@ -1,7 +1,5 @@
 from typing import Callable
 
-from plotly.graph_objs import Figure
-
 from tgmetrics.services.graphs.period import GraphPeriod
 
 
