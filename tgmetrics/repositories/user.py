@@ -19,9 +19,9 @@ class UserRepository:
         with Session() as session:
             return session.query(self._model).all()
 
-    def get_by_id(self, id: int) -> User | None:
+    def get_by_id(self, user_id: int) -> User | None:
         with Session() as session:
-            return session.query(self._model).get(id)
+            return session.query(self._model).get(user_id)
 
     def get_count(self, group_by: GroupBy) -> list[tuple[int, str]]:
         match group_by:
