@@ -1,2 +1,6 @@
 pandas
 dash
+dash-bootstrap-components
+sqlalchemy
+psycopg2
+environs
