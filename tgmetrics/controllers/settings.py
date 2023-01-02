@@ -21,8 +21,17 @@ class SettingsController:
             Input(self._settings_card_view.category_dropdown_id, "value"),
         )(self.update_subcategory_dropdown_options)
 
-    def update_category_dropdown_options(self, value):
+        app.callback(
+            Output(self._settings_card_view.period_dropdown_id, "options"),
+            Input(self._settings_card_view.category_dropdown_id, "value"),
+            Input(self._settings_card_view.subcategory_dropdown_id, "value"),
+        )(self.update_period_dropdown_options)
+
+    def update_category_dropdown_options(self, category_name):
         return self._graph_repository.categories
 
-    def update_subcategory_dropdown_options(self, value):
-        return self._graph_repository.get_subcategories(value)
+    def update_subcategory_dropdown_options(self, category_name):
+        return self._graph_repository.get_subcategories(category_name)
+
+    def update_period_dropdown_options(self, category_name, subcategory_name):
+        return self._graph_repository.get_periods(category_name, subcategory_name)

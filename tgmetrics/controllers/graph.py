@@ -16,11 +16,12 @@ class GraphController:
         app.callback(
             Output(self._graph_card_view.graph_id, "figure"),
             [Input(self._settings_card_view.category_dropdown_id, "value"),
-             Input(self._settings_card_view.subcategory_dropdown_id, "value")]
+             Input(self._settings_card_view.subcategory_dropdown_id, "value"),
+             Input(self._settings_card_view.period_dropdown_id, "value")]
         )(self.update_graph)
 
-    def update_graph(self, category_value, subcategory_value):
-        graph = self._graph_repository.get_graph(category_value, subcategory_value)
+    def update_graph(self, category_value, subcategory_value, period_value):
+        graph = self._graph_repository.get_graph(category_value, subcategory_value, period_value)
         if graph:
             return graph
         return {}
