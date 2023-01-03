@@ -1,5 +1,3 @@
-from typing import Any
-
 import sqlalchemy as sa
 
 from ..crud import Base

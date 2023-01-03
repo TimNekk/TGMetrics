@@ -32,7 +32,9 @@ class GraphRepository:
 
         return subcategory.periods_names
 
-    def get_graph(self, category_name: str, subcategory_name: str, period_name: str) -> Figure | None:
+    def get_graph(self, category_name: str,
+                  subcategory_name: str,
+                  period_name: str) -> Figure | None:
         category = self._graph_manager.get_category(category_name)
 
         if not category:

@@ -8,6 +8,14 @@
   <a href="#license">License</a>
 </p>
 
+<p align="center">
+    <a href="https://deepsource.io/gh/TimNekk/TGMetrics/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/TimNekk/TGMetrics.svg/?label=active+issues&show_trend=true&token=AY9j-qYRVWJwLwwKXtRMuLHk"/></a>
+</p>
+
+<div align="center">
+    <img src="screenshot.png" alt="Screenshot" width="800">
+</div>
+
 
 ## Contributing
 

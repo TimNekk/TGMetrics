@@ -21,7 +21,9 @@ class GraphController:
         )(self.update_graph)
 
     def update_graph(self, category_value, subcategory_value, period_value):
-        graph = self._graph_repository.get_graph(category_value, subcategory_value, period_value)
+        graph = self._graph_repository.get_graph(category_value,
+                                                 subcategory_value,
+                                                 period_value)
         if graph:
             return graph
         return {}

@@ -8,7 +8,10 @@ from tgmetrics.services.graphs import GraphManager
 def main():
     app = Dash(__name__,
                external_stylesheets=[dbc.themes.QUARTZ],
-               meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}],
+               meta_tags=[{
+                   "name": "viewport",
+                   "content": "width=device-width, initial-scale=1"
+               }],
                title="TGMetrics"
                )
 

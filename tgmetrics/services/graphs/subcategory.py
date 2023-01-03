@@ -1,5 +1,3 @@
-from typing import Callable
-
 from tgmetrics.services.graphs.period import GraphPeriod
 
 
@@ -22,4 +20,3 @@ class GraphSubcategory:
             if period.name == period_name:
                 return period
         return None
-
