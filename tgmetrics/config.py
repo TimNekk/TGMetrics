@@ -13,7 +13,8 @@ class DbConfig:
     uri: str = ""
 
     def __post_init__(self) -> None:
-        self.uri = f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
+        self.uri = f"postgresql://{self.user}:{self.password}" \
+                   f"@{self.host}:{self.port}/{self.database}"
 
 
 @dataclass

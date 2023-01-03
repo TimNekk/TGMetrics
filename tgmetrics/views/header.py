@@ -15,8 +15,10 @@ class HeaderView:
                     label="Боты",
                     direction="left",
                     children=[
-                        dbc.DropdownMenuItem("DreamPowerBot", class_name="text-secondary"),
-                        dbc.DropdownMenuItem("PerfectPowerBot", class_name="text-secondary"),
+                        dbc.DropdownMenuItem("DreamPowerBot",
+                                             class_name="text-secondary"),
+                        dbc.DropdownMenuItem("PerfectPowerBot",
+                                             class_name="text-secondary"),
                     ]
                 )
             ]
