@@ -20,4 +20,3 @@ class GraphSubcategory:
             if period.name == period_name:
                 return period
         return None
-

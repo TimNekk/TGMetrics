@@ -12,4 +12,3 @@ def register(app: Dash) -> LayoutView:
     app.layout = layout_view.content
 
     return layout_view
-
