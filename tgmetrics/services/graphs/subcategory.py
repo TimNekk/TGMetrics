@@ -1,5 +1,3 @@
-from typing import Callable
-
 from tgmetrics.services.graphs.period import GraphPeriod
 
 
