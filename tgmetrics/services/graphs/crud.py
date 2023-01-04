@@ -13,4 +13,6 @@ def get_users_total(user_repository: UserRepository, group_by: GroupBy) -> Figur
     title, x_axis, y_axis = "Всего пользователей", "Дата", "Количество"
     data_frame = DataFrame.from_records(user_repository.get_count(group_by),
                                         columns=[y_axis, x_axis])
-    return px.bar(data_frame, x=x_axis, y=y_axis, title=title)
+    figure = px.bar(data_frame, x=x_axis, y=y_axis, title=title, text_auto=True)
+    figure.update_traces(textposition="outside", cliponaxis=False)
+    return figure
