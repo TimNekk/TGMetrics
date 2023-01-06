@@ -1,8 +1,7 @@
 from typing import Type
 
-from sqlalchemy import func, desc, Integer
+from sqlalchemy import func, Integer
 from sqlalchemy.orm import Query
-from sqlalchemy.sql.functions import Function
 
 from tgmetrics.repositories.group_by import GroupBy
 from tgmetrics.services.db import Session
