@@ -1,6 +1,8 @@
 from typing import Type
 
-from sqlalchemy import func, desc
+from sqlalchemy import func, desc, Integer
+from sqlalchemy.orm import Query
+from sqlalchemy.sql.functions import Function
 
 from tgmetrics.repositories.group_by import GroupBy
 from tgmetrics.services.db import Session
@@ -10,6 +12,10 @@ from tgmetrics.services.db.models import User
 class UserRepository:
     def __init__(self, user: Type[User]) -> None:
         self._model = user
+        self._hour = func.date_trunc("hour", self._model.join_date)
+        self._day = func.date_trunc("day", self._model.join_date)
+        self._month = func.date_trunc("month", self._model.join_date)
+        self._year = func.date_part("year", self._model.join_date)
 
     @property
     def model(self) -> Type[User]:
@@ -23,22 +29,53 @@ class UserRepository:
         with Session() as session:
             return session.query(self._model).get(user_id)
 
-    def get_count(self, group_by: GroupBy) -> list[tuple[int, str]]:
+    def get_count_query(self, group_by: GroupBy) -> Query:
         match group_by:
             case GroupBy.MONTH:
-                date, limit, format_ = "month", 12, "Mon YY"
+                return self._get_count_by_month()
             case GroupBy.DAY:
-                date, limit, format_ = "day", 31, "DD Mon"
+                return self._get_count_by_day()
             case GroupBy.HOUR:
-                date, limit, format_ = "hour", 24, "HH DD Mon"
-            case _:
-                date, limit, format_ = "", 0, ""
+                return self._get_count_by_hour()
 
+    def _get_count_by_month(self) -> Query:
         with Session() as session:
-            return session.query(
-                func.count(self._model.id),
-                func.to_char(func.date_trunc(date, self._model.join_date), format_)) \
-                       .group_by(func.date_trunc(date, self._model.join_date)) \
-                       .order_by(desc(func.date_trunc(date, self._model.join_date))) \
-                       .limit(limit) \
-                       .all()[::-1]
+            return (
+                session.query(
+                    func.count(self._model.id),
+                    func.to_char(self._month, "Mon"),
+                    func.cast(self._year, Integer)
+                )
+                .group_by(self._month, self._year)
+                .order_by(self._month)
+                .all()
+            )
+
+    def _get_count_by_day(self) -> Query:
+        with Session() as session:
+            return (
+                session.query(
+                    func.count(self._model.id),
+                    func.to_char(self._day, "DD"),
+                    func.to_char(self._month, "Mon")
+                )
+                .filter(self._year == func.date_part("year", func.now()))
+                .group_by(self._day, self._month)
+                .order_by(self._day)
+                .all()
+            )
+
+    def _get_count_by_hour(self) -> Query:
+        with Session() as session:
+            return (
+                session.query(
+                    func.count(self._model.id),
+                    func.to_char(self._hour, "HH24"),
+                    func.to_char(self._day, "DD"),
+                )
+                .filter(self._month == func.date_trunc("month", func.now()))
+                .filter(self._year == func.date_part("year", func.now()))
+                .group_by(self._hour, self._day)
+                .order_by(self._hour)
+                .all()
+            )
