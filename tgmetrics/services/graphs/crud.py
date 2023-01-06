@@ -21,7 +21,7 @@ def get_users_total(user_repository: UserRepository, group_by: GroupBy) -> Figur
         case GroupBy.HOUR:
             x_axis, animation_frame, max_x = hour, day, 24
 
-    title = f"Всего пользователей за {animation_frame}"
+    title = f"Всего пользователей за {animation_frame.lower()}"
 
     data_frame = DataFrame.from_records(user_repository.get_count_query(group_by),
                                         columns=[y_axis, x_axis, animation_frame])
