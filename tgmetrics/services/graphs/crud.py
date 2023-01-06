@@ -26,7 +26,8 @@ def get_users_total(user_repository: UserRepository, group_by: GroupBy) -> Figur
     data_frame = DataFrame.from_records(user_repository.get_count_query(group_by),
                                         columns=[y_axis, x_axis, animation_frame])
 
-    figure = px.bar(data_frame, x=x_axis, y=y_axis, title=title, animation_frame=animation_frame,
+    figure = px.bar(data_frame, x=x_axis, y=y_axis,
+                    title=title, animation_frame=animation_frame,
                     range_x=[-1, max_x], range_y=[0, data_frame[y_axis].max()])
 
     return figure
